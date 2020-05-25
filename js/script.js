@@ -1,17 +1,19 @@
 class Cuenta{
-    constructor(password,monto){
+    constructor(password,monto,nombre){
         this.password=password;
         this.monto=monto;
+        this.nombre=nombre;
     };
 };
 var datos=[];
 function prueba() {
-    var cuenta=new Cuenta("12345",5000);
+    var cuenta=new Cuenta("12345",5500,"Diego Manuel André Huerto Del Carpio");
     datos.push(cuenta);
 }
 function login() {
     prueba();
     if (document.getElementById("resultado").value==datos[0].password) {
+        document.getElementById("resultado").value=""
         document.getElementById("pantalla1").style.display="none";
         document.getElementById("pantalla2").style.display="block";
     } else {
@@ -20,19 +22,28 @@ function login() {
 }
 function retirogo() {
     var retiro=document.getElementById("monto").value,montoactual=datos[0].monto;
-    if (retiro%10==0) {
-        if (montoactual>retiro) {
-            datos[0].monto=montoactual-retiro;
-        alert(datos[0].monto);
-        } else {
-            alert("saldo insuficiente");
-        }
+    if (retiro=="") {
+        document.getElementById("pantalla-error").innerHTML="Ingresar Monto";
     } else {
-        alert("ERROR")
+        if (retiro%10==0) {
+            if (montoactual>retiro) {
+                datos[0].monto=montoactual-retiro;
+                document.getElementById("monto").value=""
+                document.getElementById("pantalla5").style.display="none";
+                document.getElementById("pantalla6").style.display="block";
+            } else {
+                document.getElementById("pantalla-error").innerHTML="Saldo Insuficiente";
+            }
+        } else {
+            document.getElementById("pantalla-error").innerHTML="Multiplos de 10";
+        }
     }
 }
-function cancel() {
+function limpiar() {
     document.getElementById("resultado").value="";
+}
+function limpiar2() {
+    document.getElementById("monto").value="";
 }
 function retiro() {
     document.getElementById("pantalla2").style.display="none";
@@ -47,6 +58,18 @@ function retiro3() {
     document.getElementById("pantalla5").style.display="block";
     document.getElementById("teclado1").style.display="none";
     document.getElementById("teclado2").style.display="block";
+}
+function retiroterminado() {
+    document.getElementById("pantalla6").style.display="none";
+    document.getElementById("pantalla7").style.display="block";
+}
+function retiro_menu(){
+    document.getElementById("pantalla7").style.display="none";
+    document.getElementById("pantalla2").style.display="block";
+}
+function retirotravez(){
+    document.getElementById("pantalla6").style.display="none";
+    document.getElementById("pantalla5").style.display="block";
 }
 document.getElementById("n1").addEventListener("click",n1);
 function n1(){ 
